@@ -23,7 +23,7 @@ fi
 echo "Creating k3d cluster (without traefik)..."
 k3d cluster create devops-interview \
   --servers 1 \
-  --agents 2 \
+  --agents 1 \
   --k3s-arg "--disable=traefik@server:0" \
   --port "8080:80@loadbalancer" \
   --port "8443:443@loadbalancer" \
