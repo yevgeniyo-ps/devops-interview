@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: app-data
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  # ISSUE: Wrong storageClassName - should be "local-path" for k3d
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 1Gi

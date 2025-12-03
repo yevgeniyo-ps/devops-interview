@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-app-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  # ISSUE: Wrong ingressClassName - should be "nginx"
+  ingressClassName: traefik
+  rules:
+  - host: localhost
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            # ISSUE: Wrong service name - should match one of the services above
+            name: web-app-service
+            port:
+              # ISSUE: Wrong port number - services use port 80
+              number: 8080
