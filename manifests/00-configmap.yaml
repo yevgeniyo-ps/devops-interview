@@ -42,7 +42,7 @@ data:
     </head>
     <body>
         <div class="container">
-            <div class="emoji">🎉</div>
+            <h1>SentinelOne</h1>
             <h1>Congratulations!</h1>
             <p>All issues have been resolved!</p>
             <p>The application is now running correctly.</p>
