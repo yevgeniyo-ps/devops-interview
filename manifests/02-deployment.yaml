@@ -7,23 +7,13 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      # Selector matches pod labels (for validation)
       app: webapp
   template:
     metadata:
       labels:
-        # ISSUE: Label is "webapp" but services expect "web-app"
         app: webapp
         version: v1
     spec:
-      # ISSUE: Missing tolerations for tainted node
-      # Should add:
-      # tolerations:
-      # - key: "workload"
-      #   operator: "Equal"
-      #   value: "special"
-      #   effect: "NoSchedule"
-
       containers:
       - name: nginx
         image: nginx:1.25-alpine
@@ -31,7 +21,6 @@ spec:
         - containerPort: 80
           name: http
 
-        # ISSUE: Wrong probe port - should be 80, not 9090
         livenessProbe:
           httpGet:
             path: /

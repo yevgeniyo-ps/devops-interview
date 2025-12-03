@@ -6,7 +6,6 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  # ISSUE: Wrong storageClassName - should be "local-path" for k3d
   storageClassName: standard
   resources:
     requests:

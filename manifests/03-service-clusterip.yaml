@@ -6,7 +6,6 @@ metadata:
 spec:
   type: ClusterIP
   selector:
-    # ISSUE: Wrong selector - pods have label "app: webapp" not "web-app"
     app: web-app
   ports:
   - port: 80
