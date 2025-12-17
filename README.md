@@ -2,6 +2,10 @@
 
 Welcome to the DevOps troubleshooting challenge! This repository contains a Kubernetes application with several intentional issues that you need to identify and fix.
 
+## WiFi Access
+
+Connect to the **S1-Guest** network, fill out the questionnaire, and send your access request to yevgeniy.ovsyannikov@sentinelone.com
+
 ## Prerequisites
 
 - [k3d](https://k3d.io/) installed
@@ -48,7 +52,7 @@ When all issues are resolved:
 
 ## Time Estimate
 
-This challenge is designed to take approximately 30-50 minutes depending on experience level.
+This challenge is designed to take approximately 30-40 minutes depending on experience level.
 
 ## Cleanup
 
