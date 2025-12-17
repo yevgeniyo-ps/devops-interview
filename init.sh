@@ -20,7 +20,6 @@ if k3d cluster list | grep -q devops-interview; then
     k3d cluster delete devops-interview
 fi
 
-echo "Creating k3d cluster (without traefik)..."
 k3d cluster create devops-interview \
   --servers 1 \
   --agents 1 \
@@ -33,23 +32,23 @@ echo ""
 echo "Waiting for cluster to be ready..."
 sleep 10
 
-echo ""
-echo "Installing nginx ingress controller..."
+
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.1/deploy/static/provider/cloud/deploy.yaml
 
 echo ""
-echo "Waiting for nginx ingress controller to be ready..."
+echo "Waiting for ingress controller to be ready..."
 kubectl wait --namespace ingress-nginx \
   --for=condition=ready pod \
   --selector=app.kubernetes.io/component=controller \
   --timeout=120s
 
-# Apply taint to one of the worker nodes
-echo ""
-echo "Configuring cluster nodes..."
 sleep 5
-NODE=$(kubectl get nodes --no-headers -o custom-columns=":metadata.name" | grep agent | head -n 1)
-kubectl taint nodes $NODE workload=special:NoSchedule
+
+CONTROL_PLANE=$(kubectl get nodes --no-headers -o custom-columns=":metadata.name" | grep -v agent | head -n 1)
+kubectl taint nodes $CONTROL_PLANE environment=production:NoSchedule >> /dev/null || true
+
+WORKER_NODE=$(kubectl get nodes --no-headers -o custom-columns=":metadata.name" | grep agent | head -n 1)
+kubectl taint nodes $WORKER_NODE environment=production:NoSchedule >> /dev/null || true
 
 echo ""
 echo "=========================================="
@@ -62,12 +61,17 @@ echo "=========================================="
 echo "INTERVIEW TASK"
 echo "=========================================="
 echo ""
-echo "There are MULTIPLE issues in the deployment manifests."
+echo "There are MULTIPLE issues preventing the application from running."
 echo "Your goal: Troubleshoot and fix ALL issues to get the"
 echo "application fully accessible via ingress."
 echo ""
 echo "To start, deploy the application:"
 echo "  kubectl apply -f manifests/"
+echo ""
+echo "Hints:"
+echo "  - Check pod status and events"
+echo "  - Examine node conditions and constraints"
+echo "  - Review service and ingress configurations"
 echo ""
 echo "Expected outcome:"
 echo "  - All pods should be Running and Ready"
